@@ -1,0 +1,10 @@
+# Common
+.env
+.DS_Store
+
+# Node.js
+server/node_modules/
+
+# React/Vite
+client/node_modules/
+client/dist/

@@ -1,0 +1,137 @@
+{
+  "info": {
+    "name": "E-Commerce Cart API",
+    "_postman_id": "e-commerce-cart-api",
+    "description": "Collection test c\u00e1c API cho ch\u1ee9c n\u0103ng gi\u1ecf h\u00e0ng E-Commerce",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add To Cart",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"<ProductID>\",\n  \"quantity\": 2\n}"
+        },
+        "url": {
+          "raw": "{{url}}/api/cart",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "cart"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Cart",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/cart",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "cart"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update Cart Item",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"productId\": \"<ProductID>\",\n  \"quantity\": 5\n}"
+        },
+        "url": {
+          "raw": "{{url}}/api/cart",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "cart"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Remove Product From Cart",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/cart/<ProductID>",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "cart",
+            "<ProductID>"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Clear Cart",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{url}}/api/cart",
+          "host": [
+            "{{url}}"
+          ],
+          "path": [
+            "api",
+            "cart"
+          ]
+        }
+      }
+    }
+  ]
+}
