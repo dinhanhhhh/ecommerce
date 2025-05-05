@@ -8,18 +8,19 @@ function ProductDetail() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const { addToCart, setIsCheckoutOpen } = useCart();
 
+  // Sử dụng biến môi trường cho URL backend
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     // Lấy chi tiết sản phẩm
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${API_URL}/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
 
         // Sau khi có product, gọi API sản phẩm liên quan theo category
         if (data.category) {
-          fetch(
-            `http://localhost:5000/api/products?category=${data.category}&limit=4`
-          )
+          fetch(`${API_URL}/api/products?category=${data.category}&limit=4`)
             .then((res) => res.json())
             .then((related) => {
               // Loại bỏ sản phẩm hiện tại khỏi danh sách liên quan
@@ -27,7 +28,7 @@ function ProductDetail() {
             });
         }
       });
-  }, [id]);
+  }, [id, API_URL]);
 
   // Hàm xử lý thêm vào giỏ
   const handleAddToCart = async (quantity = 1) => {
@@ -120,7 +121,7 @@ function ProductDetail() {
           <p className="text-gray-700">
             “Sản phẩm đúng mô tả, giao hàng nhanh, chất lượng tốt.”
           </p>
-          <p className="text-sm text-gray-500 mt-2">— Anh Nguyễn Văn A</p>
+          <p className="text-sm text-gray-500 mt-2">- Anh Nguyễn Văn A</p>
         </div>
       </div>
 

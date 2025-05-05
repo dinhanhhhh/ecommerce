@@ -1,4 +1,3 @@
-// pages/Home.jsx
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductGrid from "../components/ProductGrid";
@@ -8,15 +7,18 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
 
+  // Sử dụng biến môi trường cho URL backend
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // Fetch dữ liệu ban đầu
   useEffect(() => {
     // Lấy sản phẩm nổi bật
-    fetch("http://localhost:5000/api/products?limit=8")
+    fetch(`${API_URL}/api/products?limit=8`)
       .then((res) => res.json())
       .then((data) => setFeaturedProducts(data));
 
     // Lấy danh mục
-    fetch("http://localhost:5000/api/categories")
+    fetch(`${API_URL}/api/categories`)
       .then((res) => res.json())
       .then((data) => setCategories(data));
 
@@ -35,7 +37,7 @@ function Home() {
         avatar: "/avatar2.jpg",
       },
     ]);
-  }, []);
+  }, [API_URL]);
 
   return (
     <div className="home-page">
