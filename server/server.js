@@ -16,7 +16,10 @@ const PORT = 5000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // FE chạy ở đây
+    origin: [
+      "https://ecommerce-frontend-4239.onrender.com", // Domain frontend trên Render
+      "http://localhost:5173", // Dev environment
+    ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "X-CSRF-Token"],
   })
