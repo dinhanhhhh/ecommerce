@@ -22,10 +22,14 @@ export default function Login() {
     try {
       // Gọi API đăng nhập
       const { data } = await axios.post("/api/users/login", form);
+
       console.log("Response from login API:", data); // 👉 THÊM DÒNG NÀY
 
-      // Tách token và user data từ response (backend phải trả về đúng cấu trúc)
-      const { token, ...userData } = data; // Giả định backend trả về { token, _id, name, email, ... }
+      // Sửa đoạn này để phù hợp với response từ backend
+      const { _id, name, email, role, token } = data;
+
+      // Tạo object userData đúng cấu trúc
+      const userData = { _id, name, email, role };
 
       // Gọi hàm login từ AuthContext
       login(userData, token);
