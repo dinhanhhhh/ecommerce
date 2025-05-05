@@ -4,7 +4,6 @@ import ProductGrid from "../components/ProductGrid";
 
 function Home() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
 
   // Sử dụng biến môi trường cho URL backend
@@ -12,15 +11,10 @@ function Home() {
 
   // Fetch dữ liệu ban đầu
   useEffect(() => {
-    // Lấy sản phẩm nổi bật
+    // Chỉ lấy sản phẩm nổi bật
     fetch(`${API_URL}/api/products?limit=8`)
       .then((res) => res.json())
       .then((data) => setFeaturedProducts(data));
-
-    // Lấy danh mục
-    fetch(`${API_URL}/api/categories`)
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
 
     // Testimonials mẫu
     setTestimonials([
@@ -57,29 +51,6 @@ function Home() {
           >
             Mua sắm ngay
           </Link>
-        </div>
-      </section>
-
-      {/* Danh mục nổi bật */}
-      <section className="container mx-auto px-4 mb-16">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          Danh mục nổi bật
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {categories.map((category) => (
-            <Link
-              key={category._id}
-              to={`/products?category=${category.slug}`}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow text-center"
-            >
-              <img
-                src={category.image}
-                alt={category.name}
-                className="w-20 h-20 mx-auto object-contain mb-4"
-              />
-              <h3 className="font-semibold text-gray-800">{category.name}</h3>
-            </Link>
-          ))}
         </div>
       </section>
 
