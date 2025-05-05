@@ -1,11 +1,9 @@
-// src/context/AuthContext.jsx
-
 import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
-// Tạo một event name cố định để sử dụng
 export const USER_LOGOUT_EVENT = "user-logout";
-export const USER_LOGIN_EVENT = "user-login"; // Thêm event đăng nhập
+export const USER_LOGIN_EVENT = "user-login";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -19,7 +17,11 @@ export function AuthProvider({ children }) {
       if (savedUser && savedToken) {
         const parsedUser = JSON.parse(savedUser);
         setUser(parsedUser);
-        // Phát sự kiện đăng nhập khi khôi phục từ localStorage
+
+        // ⚠️ Gắn token mặc định vào axios
+        axios.defaults.headers.common["Authorization"] = `Bearer ${savedToken}`;
+
+        // Phát sự kiện đăng nhập lại từ localStorage
         window.dispatchEvent(
           new CustomEvent(USER_LOGIN_EVENT, { detail: parsedUser })
         );
@@ -40,7 +42,9 @@ export function AuthProvider({ children }) {
         localStorage.setItem("token", token);
         setUser(userData);
 
-        // Phát sự kiện đăng nhập để các context khác có thể lắng nghe
+        // ⚠️ Gắn token mặc định vào axios
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
         window.dispatchEvent(
           new CustomEvent(USER_LOGIN_EVENT, { detail: userData })
         );
@@ -61,7 +65,9 @@ export function AuthProvider({ children }) {
         localStorage.setItem("token", token);
         setUser(userData);
 
-        // Phát sự kiện đăng nhập khi đăng ký thành công
+        // ⚠️ Gắn token mặc định vào axios
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
         window.dispatchEvent(
           new CustomEvent(USER_LOGIN_EVENT, { detail: userData })
         );
@@ -76,12 +82,13 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    // Xóa dữ liệu auth
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
 
-    // Phát sự kiện logout để các context khác có thể lắng nghe
+    // Xóa token khỏi axios headers
+    delete axios.defaults.headers.common["Authorization"];
+
     window.dispatchEvent(new CustomEvent(USER_LOGOUT_EVENT));
   };
 
