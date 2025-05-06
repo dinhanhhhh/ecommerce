@@ -22,15 +22,22 @@ export default function Login() {
     try {
       // Gọi API đăng nhập
       const { data } = await axios.post("/api/users/login", form);
+      console.log("Login API response:", data);
+      // Thêm kiểm tra này
+      if (!data || !data._id || !data.token) {
+        throw new Error("Dữ liệu đăng nhập không hợp lệ");
+      }
 
-      // Sửa đoạn này để phù hợp với response từ backend
-      const { _id, name, email, role, token } = data;
-
-      // Tạo object userData đúng cấu trúc
-      const userData = { _id, name, email, role };
+      // Tạo userData cẩn thận hơn
+      const userData = {
+        _id: data._id,
+        name: data.name || "",
+        email: data.email || "",
+        role: data.role || "user",
+      };
 
       // Gọi hàm login từ AuthContext
-      login(userData, token);
+      login(userData, data.token);
 
       // Chuyển hướng về trang chủ
       navigate("/");
