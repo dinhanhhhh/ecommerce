@@ -28,7 +28,7 @@ api.interceptors.response.use(
   }
 );
 
-api.login = (data) => api.post("/users/login", data);
-api.register = (data) => api.post("/users/register", data);
+api.login = (data) => api.post("/api/users/login", data);
+api.register = (data) => api.post("/api/users/register", data);
 
 export default api;

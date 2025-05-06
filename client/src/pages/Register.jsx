@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -17,15 +17,16 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      // Gửi dữ liệu đăng ký lên backend
-      const res = await axios.post("/api/users/register", form);
-      // Đăng ký thành công, lưu token nếu backend trả về
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
+      const response = await api.register(form);
+      const { data } = response;
+      console.log("Register API response:", data);
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
       }
-      // Chuyển hướng sang trang đăng nhập
       navigate("/login");
     } catch (err) {
+      console.error("Register error:", err);
       setError(
         err.response?.data?.message ||
           err.response?.data?.error ||
@@ -55,7 +56,7 @@ export default function Register() {
             <input
               name="name"
               type="text"
-              autoComplete="name" // Gợi ý tên cá nhân
+              autoComplete="name"
               value={form.name}
               onChange={handleChange}
               required
@@ -70,7 +71,7 @@ export default function Register() {
             <input
               name="email"
               type="email"
-              autoComplete="email" // Đúng chuẩn cho đăng ký
+              autoComplete="email"
               value={form.email}
               onChange={handleChange}
               required
@@ -85,7 +86,7 @@ export default function Register() {
             <input
               name="password"
               type="password"
-              autoComplete="new-password" // Đúng chuẩn cho đăng ký
+              autoComplete="new-password"
               value={form.password}
               onChange={handleChange}
               required

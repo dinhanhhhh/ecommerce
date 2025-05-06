@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import api from "../utils/api"; // Sử dụng api instance đã cấu hình
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -20,9 +20,12 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // Gọi API đăng nhập
-      const { data } = await axios.post("/api/users/login", form);
+      // Sử dụng api.login thay vì axios.post trực tiếp
+      const response = await api.login(form);
+      const { data } = response;
+
       console.log("Login API response:", data);
+
       // Thêm kiểm tra này
       if (!data || !data._id || !data.token) {
         throw new Error("Dữ liệu đăng nhập không hợp lệ");
@@ -42,6 +45,7 @@ export default function Login() {
       // Chuyển hướng về trang chủ
       navigate("/");
     } catch (err) {
+      console.error("Login error:", err);
       setError(
         err.response?.data?.message ||
           "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!"
@@ -81,7 +85,7 @@ export default function Login() {
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="username" // Đúng chuẩn cho trường đăng nhập
+                autoComplete="username"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -101,7 +105,7 @@ export default function Login() {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password" // Đúng chuẩn cho trường đăng nhập
+                autoComplete="current-password"
                 value={form.password}
                 onChange={handleChange}
                 required
