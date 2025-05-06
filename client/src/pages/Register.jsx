@@ -23,12 +23,12 @@ export default function Register() {
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
       }
-      // Chuyển hướng sang trang chủ hoặc trang đăng nhập
+      // Chuyển hướng sang trang đăng nhập
       navigate("/login");
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          err.response?.data?.error || // nhiều backend trả về error thay vì message
+          err.response?.data?.error ||
           "Đăng ký thất bại. Vui lòng kiểm tra lại thông tin!"
       );
     } finally {
@@ -47,7 +47,7 @@ export default function Register() {
             {error}
           </div>
         )}
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" onSubmit={handleSubmit} autoComplete="on">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Họ tên
@@ -55,6 +55,7 @@ export default function Register() {
             <input
               name="name"
               type="text"
+              autoComplete="name" // Gợi ý tên cá nhân
               value={form.name}
               onChange={handleChange}
               required
@@ -69,6 +70,7 @@ export default function Register() {
             <input
               name="email"
               type="email"
+              autoComplete="email" // Đúng chuẩn cho đăng ký
               value={form.email}
               onChange={handleChange}
               required
@@ -83,6 +85,7 @@ export default function Register() {
             <input
               name="password"
               type="password"
+              autoComplete="new-password" // Đúng chuẩn cho đăng ký
               value={form.password}
               onChange={handleChange}
               required

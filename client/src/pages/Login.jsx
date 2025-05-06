@@ -23,8 +23,6 @@ export default function Login() {
       // Gọi API đăng nhập
       const { data } = await axios.post("/api/users/login", form);
 
-      console.log("Response from login API:", data); // 👉 THÊM DÒNG NÀY
-
       // Sửa đoạn này để phù hợp với response từ backend
       const { _id, name, email, role, token } = data;
 
@@ -59,7 +57,11 @@ export default function Login() {
           </div>
         )}
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form
+          className="mt-8 space-y-6"
+          onSubmit={handleSubmit}
+          autoComplete="on"
+        >
           <div className="space-y-4">
             <div>
               <label
@@ -72,6 +74,7 @@ export default function Login() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="username" // Đúng chuẩn cho trường đăng nhập
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -91,12 +94,12 @@ export default function Login() {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="current-password" // Đúng chuẩn cho trường đăng nhập
                 value={form.password}
                 onChange={handleChange}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
-                autocomplete="current-password"
               />
             </div>
           </div>
